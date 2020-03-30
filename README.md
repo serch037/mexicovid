@@ -19,9 +19,9 @@ samples, guidance on mobile development, and a full API reference.
  - [] Add markers to map by state
  - [] Create tab bar for navigation
  - [] Create detail  view
- - [] Create list view for all maps
- - [] Fetch data from endpoint
- - [] Populate map (colors)
- - [] Populate detail list view (colors)
+ - [] Create list view for all states
+ - [x] Fetch data from endpoint
+ - [x] Populate map from endpoint (colors)
+ - [] Populate detail list view from endpoint
  - [] Get PDF url from government site
  - [] Read data from pdf
