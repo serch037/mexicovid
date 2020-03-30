@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -7,6 +8,7 @@ import 'package:geojson/geojson.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:map_controller/map_controller.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -35,8 +37,17 @@ class MyMapState extends State<MyMap> {
   StreamSubscription<StatefulMapControllerStateChange> sub;
   final polygons = <Polygon>[];
 
+  Future<http.Response> getCovidData() {
+    return http.post(
+      'http://ncov.sinave.gob.mx/Mapa45.aspx/Grafica23',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: "{}",
+    );
+  }
+
   Future<void> loadData() async {
-    // data is from http://geojson.xyz/
     final geo = GeoJson();
     geo.processedFeatures.listen((GeoJsonFeature feature) {
       switch (feature.type) {
@@ -64,6 +75,15 @@ class MyMapState extends State<MyMap> {
     final data = await rootBundle.loadString('assets/json/Mexico_Estados.json');
     //unawaited(geo.parse(data));
     await(geo.parse(data));
+    http.Response test  = await getCovidData();
+    if(test.statusCode == 200) {
+      var p1 = json.decode(test.body);
+      print(p1);
+      var p2 = json.decode(p1["d"].toString());
+      print(p2);
+      //var p2 = json.decode(p1);
+      //print(p2);
+    }
   }
 
   @override
