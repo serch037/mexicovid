@@ -16,12 +16,12 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## TODO
- - [] Add markers to map by state
- - [] Create tab bar for navigation
- - [] Create detail  view
- - [] Create list view for all states
+ - [ ] Add markers to map by state
+ - [ ] Create tab bar for navigation
+ - [ ] Create detail  view
+ - [ ] Create list view for all states
  - [x] Fetch data from endpoint
  - [x] Populate map from endpoint (colors)
- - [] Populate detail list view from endpoint
- - [] Get PDF url from government site
- - [] Read data from pdf
+ - [ ] Populate detail list view from endpoint
+ - [ ] Get PDF url from government site
+ - [ ] Read data from pdf
