@@ -76,15 +76,17 @@ class MyMapState extends State<MyMap> {
 
   Future<void> loadData() async {
     final geo = GeoJson();
-    int counter = 0;
     geo.processedFeatures.listen((GeoJsonFeature feature) {
+      var stateId = int.parse(feature.properties["CODIGO"].toString().substring(2))-1;
+      print(stateId);
       switch (feature.type) {
         case GeoJsonFeatureType.polygon:
           final poly = feature.geometry as GeoJsonPolygon;
           for (final geoSerie in poly.geoSeries) {
             setState(() => polygons.add(Polygon(
                 borderStrokeWidth: 1,
-                color: getColor(stateData[counter].positiveCases),
+                borderColor: Colors.white,
+                color: getColor(stateData[stateId].positiveCases),
                 points: geoSerie.toLatLng())));
           }
           break;
@@ -94,7 +96,8 @@ class MyMapState extends State<MyMap> {
             for (final geoSerie in poly.geoSeries) {
               setState(() => polygons.add(Polygon(
                   borderStrokeWidth: 1,
-                  color: getColor(stateData[counter].positiveCases),
+                  borderColor: Colors.white,
+                  color: getColor(stateData[stateId].positiveCases),
                   points: geoSerie.toLatLng())));
             }
           }
@@ -102,7 +105,6 @@ class MyMapState extends State<MyMap> {
         default:
           break;
       }
-      counter += 1;
     });
     print("Loading geojson data");
     final data = await rootBundle.loadString('assets/json/Mexico_Estados.json');
