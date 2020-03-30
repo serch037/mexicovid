@@ -1,3 +1,4 @@
+import 'package:covidmexico/models/StateData.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -36,59 +37,83 @@ class MyMapState extends State<MyMap> {
   StatefulMapController statefulMapController;
   StreamSubscription<StatefulMapControllerStateChange> sub;
   final polygons = <Polygon>[];
+  List<StateData> stateData;
 
-  Future<http.Response> getCovidData() {
-    return http.post(
+  Color getColor(int cases) {
+    if (cases < 50) {
+      return Colors.lightGreen;
+    } else if (cases < 100) {
+      return Colors.green;
+    } else if (cases < 250) {
+      return Colors.amber;
+    } else if (cases < 500) {
+      return Colors.deepOrange;
+    } else if (cases <= 1000) {
+      return Colors.red;
+    } else {
+      return Colors.black;
+    }
+  }
+
+  Future<void> getStateData() async {
+    final response = await http.post(
       'http://ncov.sinave.gob.mx/Mapa45.aspx/Grafica23',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: "{}",
     );
-  }
-
-  Future<void> loadData() async {
-    final geo = GeoJson();
-    geo.processedFeatures.listen((GeoJsonFeature feature) {
-      switch (feature.type) {
-        case GeoJsonFeatureType.polygon:
-          final poly = feature.geometry as GeoJsonPolygon;
-          for (final geoSerie in poly.geoSeries) {
-            setState(() => polygons
-                .add(Polygon(color: Colors.blue, points: geoSerie.toLatLng())));
-          }
-          break;
-        case GeoJsonFeatureType.multipolygon:
-          final mp = feature.geometry as GeoJsonMultiPolygon;
-          for (final poly in mp.polygons) {
-            for (final geoSerie in poly.geoSeries) {
-              setState(() => polygons.add(
-                  Polygon(color: Colors.blue, points: geoSerie.toLatLng())));
-            }
-          }
-          break;
-        default:
-          break;
-      }
-    });
-    print("Loading geojson data");
-    final data = await rootBundle.loadString('assets/json/Mexico_Estados.json');
-    //unawaited(geo.parse(data));
-    await(geo.parse(data));
-    http.Response test  = await getCovidData();
-    if(test.statusCode == 200) {
-      var p1 = json.decode(test.body);
+    if (response.statusCode == 200) {
+      var p1 = json.decode(response.body);
       print(p1);
-      var p2 = json.decode(p1["d"].toString());
+      Iterable p2 = json.decode(p1["d"].toString());
+      stateData = p2.map((var data) => StateData.fromJson(data)).toList();
       print(p2);
       //var p2 = json.decode(p1);
       //print(p2);
     }
   }
 
+  Future<void> loadData() async {
+    final geo = GeoJson();
+    int counter = 0;
+    geo.processedFeatures.listen((GeoJsonFeature feature) {
+      switch (feature.type) {
+        case GeoJsonFeatureType.polygon:
+          final poly = feature.geometry as GeoJsonPolygon;
+          for (final geoSerie in poly.geoSeries) {
+            setState(() => polygons.add(Polygon(
+                borderStrokeWidth: 1,
+                color: getColor(stateData[counter].positiveCases),
+                points: geoSerie.toLatLng())));
+          }
+          break;
+        case GeoJsonFeatureType.multipolygon:
+          final mp = feature.geometry as GeoJsonMultiPolygon;
+          for (final poly in mp.polygons) {
+            for (final geoSerie in poly.geoSeries) {
+              setState(() => polygons.add(Polygon(
+                  borderStrokeWidth: 1,
+                  color: getColor(stateData[counter].positiveCases),
+                  points: geoSerie.toLatLng())));
+            }
+          }
+          break;
+        default:
+          break;
+      }
+      counter += 1;
+    });
+    print("Loading geojson data");
+    final data = await rootBundle.loadString('assets/json/Mexico_Estados.json');
+    //unawaited(geo.parse(data));
+    await (geo.parse(data));
+  }
+
   @override
   void initState() {
     mapController = MapController();
+    getStateData().then((_) => setState(() {}));
     statefulMapController = StatefulMapController(mapController: mapController);
     statefulMapController.onReady.then((_) => loadData());
     sub = statefulMapController.changeFeed.listen((change) => setState(() {}));
@@ -105,9 +130,7 @@ class MyMapState extends State<MyMap> {
           center: LatLng(24.0, -102.0),
           zoom: 4.0,
         ),
-        layers: [
-          PolygonLayerOptions(polygons: polygons)
-        ],
+        layers: [PolygonLayerOptions(polygons: polygons)],
       )),
     );
   }

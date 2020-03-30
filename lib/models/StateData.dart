@@ -10,11 +10,11 @@ class StateData {
   int suspectCases;
   int deaths;
 
-  StateData.fromJson(Map<String, dynamic> json)
-      : covidId = json[0],
-        covidName = json[1],
-        positiveCases = json[4],
-        negativeCases = json[5],
-        suspectCases = json[6],
-        deaths = json[7];
+  StateData.fromJson(List<dynamic> json)
+      : covidId = int.parse(json[0]),
+        covidName = json[1].toString(),
+        positiveCases = int.parse(json[4]),
+        negativeCases = int.parse(json[5]),
+        suspectCases = int.parse(json[6]),
+        deaths = int.parse(json[7]);
 }
