@@ -17,6 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## TODO
  - [] Add markers to map by state
+ - [] Create tab bar for navigation
  - [] Create detail  view
  - [] Create list view for all maps
  - [] Fetch data from endpoint
