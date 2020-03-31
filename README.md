@@ -23,5 +23,9 @@ samples, guidance on mobile development, and a full API reference.
  - [x] Fetch data from endpoint
  - [x] Populate map from endpoint (colors)
  - [ ] Populate detail list view from endpoint
- - [ ] Get PDF url from government site
- - [ ] Read data from pdf
+ - [x] Get time data
+ - [x] Populate  time chart
+ - [ ] Get data on splash
+ - [ ] Pass data to children
+ - [ ] Add navigation
+ - [ ] Style chart
