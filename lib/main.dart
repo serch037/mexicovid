@@ -1,3 +1,4 @@
+import 'package:covidmexico/charts.dart';
 import 'package:covidmexico/models/StateData.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyMap(),
+      home: TimeSeriesChart(),
     );
   }
 }
