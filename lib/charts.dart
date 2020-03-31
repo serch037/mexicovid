@@ -25,15 +25,32 @@ class TimeSeriesChartState extends State<TimeSeriesChart> {
       DateTime date = DateTime.parse(parsed[0]);
       int infections = int.parse(parsed[1]);
       int deaths = int.parse(parsed[4]);
-      _cases.add(new Case(date, infections, deaths));
+      int recovered = int.parse(parsed[7]);
+      _cases.add(new Case(date, infections, deaths, recovered));
     }
 
     List<charts.Series<Case, DateTime>> chart = [
       new charts.Series<Case, DateTime>(
-        id: 'Desktop',
+        id: 'Infections',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         domainFn: (Case coCase, _) => coCase.date,
         measureFn: (Case coCase, _) => coCase.infections,
+        data: _cases,
+      ),
+
+      new charts.Series<Case, DateTime>(
+        id: 'Deaths',
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        domainFn: (Case coCase, _) => coCase.date,
+        measureFn: (Case coCase, _) => coCase.deaths,
+        data: _cases,
+      ),
+
+      new charts.Series<Case, DateTime>(
+        id: 'Recovered',
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        domainFn: (Case coCase, _) => coCase.date,
+        measureFn: (Case coCase, _) => coCase.recovered,
         data: _cases,
       ),
     ];
@@ -95,13 +112,3 @@ class TimeSeriesChart extends StatefulWidget {
   State<StatefulWidget> createState() => TimeSeriesChartState();
 }
 
-/// Sample time series data type.
-class TimeSeriesSales {
-  final DateTime timeCurrent;
-  final DateTime timePrevious;
-  final DateTime timeTarget;
-  final int sales;
-
-  TimeSeriesSales(
-      {this.timeCurrent, this.timePrevious, this.timeTarget, this.sales});
-}
