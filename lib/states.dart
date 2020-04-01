@@ -11,7 +11,14 @@ class ListStatesState extends State<ListStates> {
 
   String buildImageUrl(String stateName) {
     //https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Coat_of_arms_of_Aguascalientes.svg/100px-Coat_of_arms_of_Aguascalientes.svg.png
-    return "${image_base_url}${stateName}.svg/100px-Coat_of_arms_of_${stateName}.svg.png";
+    var parsedState = stateName
+        .replaceAll(" ", "_")
+        .replaceAll("á", "a")
+        .replaceAll("é", "e")
+        .replaceAll("í", "i")
+        .replaceAll("ó", "o")
+        .replaceAll("ú", "u");
+    return "${image_base_url}${parsedState}.svg/100px-Coat_of_arms_of_${parsedState}.svg.png";
   }
 
   Widget _StateTile(StateData state) {
