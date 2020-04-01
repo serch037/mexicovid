@@ -36,7 +36,6 @@ class TimeSeriesChartState extends State<TimeSeriesChart> {
         measureFn: (Case coCase, _) => coCase.infections,
         data: _cases,
       ),
-
       new charts.Series<Case, DateTime>(
         id: 'Deaths',
         colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
@@ -44,7 +43,6 @@ class TimeSeriesChartState extends State<TimeSeriesChart> {
         measureFn: (Case coCase, _) => coCase.deaths,
         data: _cases,
       ),
-
       new charts.Series<Case, DateTime>(
         id: 'Recovered',
         colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
@@ -81,14 +79,13 @@ class TimeSeriesChartState extends State<TimeSeriesChart> {
                   animate: true,
                   dateTimeFactory: const charts.LocalDateTimeFactory(),
                 ),
-                width: 500,
-                height: 500,
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height/4*3,
               )
             ];
           } else {
             children = <Widget>[
               Center(
-                heightFactor: 10,
                 child: Container(
                   child: Column(
                     children: <Widget>[
@@ -112,4 +109,3 @@ class TimeSeriesChart extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => TimeSeriesChartState();
 }
-
