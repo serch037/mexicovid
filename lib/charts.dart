@@ -70,37 +70,26 @@ class TimeSeriesChartState extends State<TimeSeriesChart> {
         future: initiate(),
         builder: (BuildContext context,
             AsyncSnapshot<List<charts.Series>> snapshot) {
-          List<Widget> children;
           if (snapshot.hasData) {
-            children = <Widget>[
-              SizedBox(
-                child: new charts.TimeSeriesChart(
-                  snapshot.data,
-                  animate: true,
-                  dateTimeFactory: const charts.LocalDateTimeFactory(),
-                ),
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height/4*3,
-              )
-            ];
+            return SizedBox(
+              child: new charts.TimeSeriesChart(
+                snapshot.data,
+                animate: true,
+                dateTimeFactory: const charts.LocalDateTimeFactory(),
+              ),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 4 * 3,
+            );
           } else {
-            children = <Widget>[
-              Center(
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      Text('Awaiting result...')
-                    ],
-                  ),
-                ),
-              )
-            ];
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                Text('Awaiting result...')
+              ],
+            );
           }
-          return Center(
-              child: Column(
-            children: children,
-          ));
         });
   }
 }
