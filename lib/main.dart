@@ -4,7 +4,9 @@ import 'package:covidmexico/states.dart';
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyAppState extends State<MyApp> {
   int _selectedTab = 0;
