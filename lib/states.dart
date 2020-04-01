@@ -4,21 +4,26 @@ import 'package:covidmexico/models/StateData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/rendering.dart';
+
 
 class ListStatesState extends State<ListStates> {
   final image_base_url =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Coat_of_arms_of_";
+      "https://www.conago.org.mx/documentos/entidades-federativas/escudos/";
 
   String buildImageUrl(String stateName) {
     //https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Coat_of_arms_of_Aguascalientes.svg/100px-Coat_of_arms_of_Aguascalientes.svg.png
+    if(stateName == "Ciudad de México") {
+      return "${image_base_url}ciudad-de-mexico-v2.jpg";
+    }
     var parsedState = stateName
-        .replaceAll(" ", "_")
+        .replaceAll(" ", "-")
         .replaceAll("á", "a")
         .replaceAll("é", "e")
         .replaceAll("í", "i")
         .replaceAll("ó", "o")
         .replaceAll("ú", "u");
-    return "${image_base_url}${parsedState}.svg/100px-Coat_of_arms_of_${parsedState}.svg.png";
+    return "${image_base_url}${parsedState}.jpg";
   }
 
   Widget _StateTile(StateData state) {

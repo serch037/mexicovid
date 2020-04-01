@@ -87,16 +87,17 @@ class TimeSeriesChartState extends State<TimeSeriesChart> {
             ];
           } else {
             children = <Widget>[
-              Center(
-                heightFactor: 10,
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      Text('Awaiting result...')
-                    ],
+              Container(
+                child: Center(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                        Text('Awaiting result...')
+                      ],
+                    ),
                   ),
-                ),
+                )
               )
             ];
           }
