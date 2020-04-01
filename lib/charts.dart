@@ -81,13 +81,16 @@ class TimeSeriesChartState extends State<TimeSeriesChart> {
               height: MediaQuery.of(context).size.height / 4 * 3,
             );
           } else {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                CircularProgressIndicator(),
-                Text('Awaiting result...')
-              ],
+            return Container(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Text('Awaiting result...')
+                  ],
+                )
             );
           }
         });
