@@ -4,8 +4,19 @@ import 'package:covidmexico/states.dart';
 
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
+void main() => runApp(MyRoot());
+class MyRoot extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'MexicoVid',
+      theme : ThemeData(
+        primarySwatch: Colors.blue
+      ),
+      home: MyApp()
+    );
+  }
+
 }
 
 class MyAppState extends State<MyApp> {
@@ -17,12 +28,7 @@ class MyAppState extends State<MyApp> {
   ];
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('COVID-19 México'),
         ),
@@ -49,7 +55,6 @@ class MyAppState extends State<MyApp> {
             ),
           ],
         ),
-      ),
     );
   }
 }
